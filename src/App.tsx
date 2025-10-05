@@ -7,18 +7,54 @@ type ImageBoxData = {
 };
 
 function App() {
-	const initial = [
+	let initial = [
 		{ src: "./public/one.PNG", found: false },
 		{ src: "./public/two.PNG", found: false },
 		{ src: "./public/three.PNG", found: false },
 		{ src: "./public/four.JPG", found: false },
 		{ src: "./public/five.JPG", found: false },
 	];
-	const [gridOfImage, setGridOfImages] = useState<ImageBoxData[]>(
-		[initial, initial, initial, initial, initial].flat()
-	);
+	initial = [initial, initial, initial, initial, initial].flat();
+	const stored = localStorage.getItem("sign-pictures");
+
+	if (stored) initial = JSON.parse(stored);
+
+	const [gridOfImage, setGridOfImages] = useState<ImageBoxData[]>(initial);
+	const [won, setWon] = useState(false);
+
+	// get set local storage
 	useEffect(() => {
-		console.log("hello");
+		localStorage.setItem("sign-pictures", JSON.stringify(gridOfImage));
+	}, [gridOfImage]);
+
+	// check if winner
+	useEffect(() => {
+		let found = true;
+		const columns: boolean[][] = [[]];
+		const rows: boolean[] = [];
+		gridOfImage.forEach((item, index) => {
+			const column = index % 5;
+			if (!item.found) found = false; // negative track if row is all found
+			if (!columns[column]) {
+				columns[column] = [item.found];
+			} else {
+				columns[column].push(item.found);
+			}
+			// check win status as the end of each row
+			if (column === 4) {
+				rows.push(found);
+			}
+		});
+
+		if (rows.every((s) => s)) setWon(true);
+
+		let columnWin = false;
+		columns.forEach((column) => {
+			if (column.every((g) => g)) {
+				columnWin = true;
+			}
+		});
+		if (columnWin) setWon(true);
 	}, [gridOfImage]);
 
 	const cb = (index: number) => {
@@ -31,103 +67,18 @@ function App() {
 	};
 
 	return (
-		<div className={`grid-container`}>
-			{gridOfImage.map((data, index) => (
-				<ImageBox
-					key={data.src + index}
-					data={data}
-					callBack={() => cb(index)}
-				/>
-			))}
-		</div>
-	);
-}
-
-export function AppT() {
-	return (
-		<>
-			<div className="grid-container">
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=1" alt="Image 1" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=2" alt="Image 2" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=3" alt="Image 3" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=4" alt="Image 4" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=5" alt="Image 5" />
-				</div>
-
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=6" alt="Image 6" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=7" alt="Image 7" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=8" alt="Image 8" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=9" alt="Image 9" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=10" alt="Image 10" />
-				</div>
-
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=11" alt="Image 11" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=12" alt="Image 12" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=13" alt="Image 13" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=14" alt="Image 14" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=15" alt="Image 15" />
-				</div>
-
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=16" alt="Image 16" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=17" alt="Image 17" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=18" alt="Image 18" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=19" alt="Image 19" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=20" alt="Image 20" />
-				</div>
-
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=21" alt="Image 21" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=22" alt="Image 22" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=23" alt="Image 23" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=24" alt="Image 24" />
-				</div>
-				<div className="grid-item">
-					<img src="https://picsum.photos/400/400?random=25" alt="Image 25" />
-				</div>
+		<div>
+			<h2>{won ? "You won" : "You haven't won yet"}</h2>
+			<div className={`grid-container`}>
+				{gridOfImage.map((data, index) => (
+					<ImageBox
+						key={data.src + index}
+						data={data}
+						callBack={() => cb(index)}
+					/>
+				))}
 			</div>
-		</>
+		</div>
 	);
 }
 
