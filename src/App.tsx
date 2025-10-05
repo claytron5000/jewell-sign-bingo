@@ -29,32 +29,40 @@ function App() {
 
 	// check if winner
 	useEffect(() => {
-		let found = true;
-		const columns: boolean[][] = [[]];
-		const rows: boolean[] = [];
-		gridOfImage.forEach((item, index) => {
-			const column = index % 5;
-			if (!item.found) found = false; // negative track if row is all found
-			if (!columns[column]) {
-				columns[column] = [item.found];
+		const columns: boolean[][] = [];
+		const currentRow: boolean[] = [];
+		for (let i = 0; i < gridOfImage.length; i++) {
+			const item = gridOfImage[i];
+			const gridWidth = 5;
+			const col = i % gridWidth;
+			// const row = Math.floor(i / gridWidth);
+			currentRow[col] = item.found;
+			// check if current row is all true
+			if (col === gridWidth - 1) {
+				if (currentRow.every((b) => b)) {
+					setWon(true);
+					break;
+				} else {
+					setWon(false);
+				}
+			}
+			// construct columns
+			if (!columns[col]) {
+				columns[col] = [item.found];
 			} else {
-				columns[column].push(item.found);
+				columns[col].push(item.found);
 			}
-			// check win status as the end of each row
-			if (column === 4) {
-				rows.push(found);
+			if (columns.find((col) => col.every((b) => b))) {
+				setWon(true);
+			} else {
+				console.log("set not won");
 			}
-		});
-
-		if (rows.every((s) => s)) setWon(true);
-
-		let columnWin = false;
-		columns.forEach((column) => {
-			if (column.every((g) => g)) {
-				columnWin = true;
-			}
-		});
-		if (columnWin) setWon(true);
+		}
+		// if (rows.find((b) => b) || columns.find((b) => b)) {
+		// 	setWon(true);
+		// } else {
+		// 	setWon(false);
+		// }
 	}, [gridOfImage]);
 
 	const cb = (index: number) => {
