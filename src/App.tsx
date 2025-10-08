@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
-
 import "./App.css";
+
+const storage = "sign-pictures";
 type ImageBoxData = {
 	src: string;
 	found: boolean;
@@ -37,7 +38,7 @@ function App() {
 		{ src: "./assets/IMG_8821.JPG", found: false },
 	];
 
-	const stored = localStorage.getItem("sign-pictures");
+	const stored = localStorage.getItem(storage);
 
 	if (stored) initial = JSON.parse(stored);
 
@@ -47,7 +48,7 @@ function App() {
 
 	// get set local storage
 	useEffect(() => {
-		localStorage.setItem("sign-pictures", JSON.stringify(gridOfImage));
+		localStorage.setItem(storage, JSON.stringify(gridOfImage));
 	}, [gridOfImage]);
 
 	// check if winner
@@ -126,6 +127,9 @@ function App() {
 						}}
 					/>
 				))}
+			</div>
+			<div className="reset">
+				<button onClick={() => localStorage.removeItem(storage)}>reset</button>
 			</div>
 			<Dialog open={selectedIndex > -1}>
 				<DialogTitle>
