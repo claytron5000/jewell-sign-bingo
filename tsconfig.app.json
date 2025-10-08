@@ -24,7 +24,5 @@
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedSideEffectImports": true
 	},
-	"include": ["src"],
-	/* for deploy */
-	"base": "./"
+	"include": ["src"]
 }
