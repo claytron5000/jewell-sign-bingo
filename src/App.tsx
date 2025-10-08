@@ -23,7 +23,7 @@ function App() {
 		{ src: "./public/IMG_8823.JPG", found: false },
 		{ src: "./public/IMG_8824.JPG", found: false },
 		{ src: "./public/IMG_8825.JPG", found: false },
-		{ src: "./public/IMG_8817.JPG", found: false },
+		{ src: "./public/IMG_8813.JPG", found: false },
 		{ src: "./public/IMG_8818.JPG", found: false },
 		{ src: "./public/IMG_8819.JPG", found: false },
 		{ src: "./public/IMG_8820.JPG", found: false },
