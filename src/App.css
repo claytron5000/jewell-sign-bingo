@@ -2,6 +2,22 @@
 	filter: grayscale(1) brightness(55%);
 }
 
+.header-image {
+  max-width: 100%;
+  margin-bottom: -2rem;
+}
+
+.header {
+  text-align: center;
+}
+h1 {
+    font-size: 2rem;
+}
+
+.app-container {
+  padding: 0 0.5rem;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(5, 1fr);

@@ -1,0 +1,10 @@
+{
+	"name": "Jewell Sign Bingo",
+	"icons": [
+		{
+			"src": "public/vite.svg",
+			"type": "image/png",
+			"sizes": "512x512"
+		}
+	]
+}
