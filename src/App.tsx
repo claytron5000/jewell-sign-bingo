@@ -10,31 +10,31 @@ type ImageBoxData = {
 
 function App() {
 	let initial = [
-		{ src: "./public/IMG_8813.JPG", found: false },
-		{ src: "./public/IMG_8814.JPG", found: false },
-		{ src: "./public/IMG_8815.JPG", found: false },
-		{ src: "./public/IMG_8816.JPG", found: false },
-		{ src: "./public/IMG_8817.JPG", found: false },
-		{ src: "./public/IMG_8818.JPG", found: false },
-		{ src: "./public/IMG_8819.JPG", found: false },
-		{ src: "./public/IMG_8820.JPG", found: false },
-		{ src: "./public/IMG_8821.JPG", found: false },
-		{ src: "./public/IMG_8822.JPG", found: false },
-		{ src: "./public/IMG_8823.JPG", found: false },
-		{ src: "./public/IMG_8824.JPG", found: false },
-		{ src: "./public/IMG_8825.JPG", found: false },
-		{ src: "./public/IMG_8815.JPG", found: false },
-		{ src: "./public/IMG_8818.JPG", found: false },
-		{ src: "./public/IMG_8819.JPG", found: false },
-		{ src: "./public/IMG_8820.JPG", found: false },
-		{ src: "./public/IMG_8821.JPG", found: false },
-		{ src: "./public/IMG_8822.JPG", found: false },
-		{ src: "./public/IMG_8823.JPG", found: false },
-		{ src: "./public/IMG_8825.JPG", found: false },
-		{ src: "./public/IMG_8818.JPG", found: false },
-		{ src: "./public/IMG_8819.JPG", found: false },
-		{ src: "./public/IMG_8820.JPG", found: false },
-		{ src: "./public/IMG_8821.JPG", found: false },
+		{ src: "./assets/IMG_8813.JPG", found: false },
+		{ src: "./assets/IMG_8814.JPG", found: false },
+		{ src: "./assets/IMG_8815.JPG", found: false },
+		{ src: "./assets/IMG_8816.JPG", found: false },
+		{ src: "./assets/IMG_8817.JPG", found: false },
+		{ src: "./assets/IMG_8818.JPG", found: false },
+		{ src: "./assets/IMG_8819.JPG", found: false },
+		{ src: "./assets/IMG_8820.JPG", found: false },
+		{ src: "./assets/IMG_8821.JPG", found: false },
+		{ src: "./assets/IMG_8822.JPG", found: false },
+		{ src: "./assets/IMG_8823.JPG", found: false },
+		{ src: "./assets/IMG_8824.JPG", found: false },
+		{ src: "./assets/IMG_8825.JPG", found: false },
+		{ src: "./assets/IMG_8815.JPG", found: false },
+		{ src: "./assets/IMG_8818.JPG", found: false },
+		{ src: "./assets/IMG_8819.JPG", found: false },
+		{ src: "./assets/IMG_8820.JPG", found: false },
+		{ src: "./assets/IMG_8821.JPG", found: false },
+		{ src: "./assets/IMG_8822.JPG", found: false },
+		{ src: "./assets/IMG_8823.JPG", found: false },
+		{ src: "./assets/IMG_8825.JPG", found: false },
+		{ src: "./assets/IMG_8818.JPG", found: false },
+		{ src: "./assets/IMG_8819.JPG", found: false },
+		{ src: "./assets/IMG_8820.JPG", found: false },
+		{ src: "./assets/IMG_8821.JPG", found: false },
 	];
 
 	const stored = localStorage.getItem("sign-pictures");
@@ -176,7 +176,7 @@ function Header({ hasWon }: { hasWon: boolean }) {
 		<header className="header">
 			<img
 				className="header-image"
-				src="./public/IMG_1624.JPG"
+				src="./assets/IMG_1624.JPG"
 				alt="Jewell for our schools template"
 			/>
 			<h1>Tiffany Jewell for School Committee</h1>
