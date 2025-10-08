@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
-import "./App.css";
+import confetti from "canvas-confetti";
 
-const storage = "sign-pictures";
+import "./App.css";
+import InfoDialog from "./InfoDialog";
+import { storageString } from "./constants";
+
 type ImageBoxData = {
 	src: string;
 	found: boolean;
@@ -38,17 +41,18 @@ function App() {
 		{ src: "./IMG_8821.JPG", found: false },
 	];
 
-	const stored = localStorage.getItem(storage);
+	const stored = localStorage.getItem(storageString);
 
 	if (stored) initial = JSON.parse(stored);
 
 	const [gridOfImage, setGridOfImages] = useState<ImageBoxData[]>(initial);
 	const [won, setWon] = useState(false);
 	const [selectedIndex, setSelectedIndex] = useState<number>(-1);
+	const [dialogClosed, setDialogClosed] = useState(true);
 
 	// get set local storage
 	useEffect(() => {
-		localStorage.setItem(storage, JSON.stringify(gridOfImage));
+		localStorage.setItem(storageString, JSON.stringify(gridOfImage));
 	}, [gridOfImage]);
 
 	// check if winner
@@ -62,7 +66,6 @@ function App() {
 			const item = gridOfImage[i];
 			const gridWidth = 5;
 			const col = i % gridWidth;
-			// const row = Math.floor(i / gridWidth);
 			currentRow[col] = item.found;
 			// check if current row is all true
 			if (col === gridWidth - 1) {
@@ -105,6 +108,17 @@ function App() {
 		setWon(winnerInColumns || winnerInDiagonals || winnerInRows);
 	}, [gridOfImage]);
 
+	useEffect(() => {
+		if (won && dialogClosed) {
+			setTimeout(() => {
+				confetti({ particleCount: 100 });
+				setTimeout(() => {
+					confetti();
+				}, 500);
+			}, 500);
+		}
+	}, [won, dialogClosed]);
+
 	const toggleFound = (index: number) => {
 		setGridOfImages(
 			gridOfImage.map((v, i) => ({
@@ -128,10 +142,8 @@ function App() {
 					/>
 				))}
 			</div>
-			<div className="reset">
-				<button onClick={() => localStorage.removeItem(storage)}>reset</button>
-			</div>
-			<Dialog open={selectedIndex > -1}>
+
+			<Dialog open={selectedIndex > -1} onClose={() => setDialogClosed(true)}>
 				<DialogTitle>
 					{selectedIndex > -1 && gridOfImage[selectedIndex].found
 						? "uncheck?"
@@ -176,6 +188,8 @@ function ImageBox({
 }
 
 function Header({ hasWon }: { hasWon: boolean }) {
+	const [open, setOpen] = useState(false);
+
 	return (
 		<header className="header">
 			<img
@@ -183,8 +197,16 @@ function Header({ hasWon }: { hasWon: boolean }) {
 				src="./IMG_1624.JPG"
 				alt="Jewell for our schools template"
 			/>
-			<h1>Tiffany Jewell for School Committee</h1>
-			{!hasWon ? <p>Find enough signs around town to win!</p> : <p>you won!</p>}
+			<p className="subtitle">
+				{!hasWon ? "Find enough signs around town to win!" : "you won!"}
+				&nbsp;
+				<span className="info-icon">
+					<a href="#" onClick={() => setOpen(true)}>
+						ⓘ
+					</a>
+				</span>
+			</p>
+			<InfoDialog open={open} setOpen={setOpen} />
 		</header>
 	);
 }

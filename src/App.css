@@ -4,14 +4,36 @@
 
 .header-image {
   max-width: 100%;
-  margin-bottom: -2rem;
 }
 
 .header {
   text-align: center;
 }
 h1 {
-    font-size: 2rem;
+    font-size: 1.3rem;
+}
+
+h1.page-title {
+  visibility: hidden;
+}
+
+h1.info-title {
+  text-align: center;
+}
+
+.info-dialog p{
+  line-height: 1.4rem;
+}
+
+.subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-icon a {
+  font-weight: 700;
+  font-size: 1.5rem;
 }
 
 .app-container {
