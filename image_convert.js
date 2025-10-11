@@ -23,8 +23,6 @@ function main() {
 		});
 
 		jpgFiles.forEach(processFile);
-
-		// console.log("JPG files found:", jpgFiles);
 	});
 }
 
@@ -32,7 +30,8 @@ function processFile(file) {
 	sizes.forEach(processBySize);
 
 	function processBySize(size) {
-		const outPut = ` ${directory}/${subDir}/${size.name}px-${file}`;
+		// const fileName =file.split(".")[0] + "-" + size.name + "px" + file.split(".")[1];
+		const outPut = ` ${directory}/${subDir}/${size.name}/${file}`;
 		let execString = `magick ${directory}/${file} -resize ${size.sizeString}`;
 		if (size.cropSquare)
 			execString += ` -gravity center -extent "%[fx:h<w?h:w]x%[fx:h<w?h:w]"`;

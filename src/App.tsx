@@ -5,40 +5,40 @@ import confetti from "canvas-confetti";
 
 import "./App.css";
 import InfoDialog from "./InfoDialog";
-import { storageString } from "./constants";
+import { colors, storageString } from "./constants";
 
 type ImageBoxData = {
-	src: string;
+	fileName: string;
 	found: boolean;
 };
 
 function App() {
 	let initial = [
-		{ src: "./IMG_8813.JPG", found: false },
-		{ src: "./IMG_8814.JPG", found: false },
-		{ src: "./IMG_8815.JPG", found: false },
-		{ src: "./IMG_8816.JPG", found: false },
-		{ src: "./IMG_8817.JPG", found: false },
-		{ src: "./IMG_8818.JPG", found: false },
-		{ src: "./IMG_8819.JPG", found: false },
-		{ src: "./IMG_8820.JPG", found: false },
-		{ src: "./IMG_8821.JPG", found: false },
-		{ src: "./IMG_8822.JPG", found: false },
-		{ src: "./IMG_8823.JPG", found: false },
-		{ src: "./IMG_8824.JPG", found: false },
-		{ src: "./IMG_8825.JPG", found: false },
-		{ src: "./IMG_8815.JPG", found: false },
-		{ src: "./IMG_8818.JPG", found: false },
-		{ src: "./IMG_8819.JPG", found: false },
-		{ src: "./IMG_8820.JPG", found: false },
-		{ src: "./IMG_8821.JPG", found: false },
-		{ src: "./IMG_8822.JPG", found: false },
-		{ src: "./IMG_8823.JPG", found: false },
-		{ src: "./IMG_8825.JPG", found: false },
-		{ src: "./IMG_8818.JPG", found: false },
-		{ src: "./IMG_8819.JPG", found: false },
-		{ src: "./IMG_8820.JPG", found: false },
-		{ src: "./IMG_8821.JPG", found: false },
+		{ fileName: "IMG_8813.JPG", found: false },
+		{ fileName: "IMG_8814.JPG", found: false },
+		{ fileName: "IMG_8815.JPG", found: false },
+		{ fileName: "IMG_8816.JPG", found: false },
+		{ fileName: "IMG_8817.JPG", found: false },
+		{ fileName: "IMG_8818.JPG", found: false },
+		{ fileName: "IMG_8819.JPG", found: false },
+		{ fileName: "IMG_8820.JPG", found: false },
+		{ fileName: "IMG_8821.JPG", found: false },
+		{ fileName: "IMG_8822.JPG", found: false },
+		{ fileName: "IMG_8823.JPG", found: false },
+		{ fileName: "IMG_8824.JPG", found: false },
+		{ fileName: "IMG_8825.JPG", found: false },
+		{ fileName: "IMG_8815.JPG", found: false },
+		{ fileName: "IMG_8818.JPG", found: false },
+		{ fileName: "IMG_8819.JPG", found: false },
+		{ fileName: "IMG_8820.JPG", found: false },
+		{ fileName: "IMG_8821.JPG", found: false },
+		{ fileName: "IMG_8822.JPG", found: false },
+		{ fileName: "IMG_8823.JPG", found: false },
+		{ fileName: "IMG_8825.JPG", found: false },
+		{ fileName: "IMG_8818.JPG", found: false },
+		{ fileName: "IMG_8819.JPG", found: false },
+		{ fileName: "IMG_8820.JPG", found: false },
+		{ fileName: "IMG_8821.JPG", found: false },
 	];
 
 	const stored = localStorage.getItem(storageString);
@@ -110,10 +110,14 @@ function App() {
 
 	useEffect(() => {
 		if (won && dialogClosed) {
+			const config = { particleCount: 150, colors: colors };
 			setTimeout(() => {
-				confetti({ particleCount: 100 });
+				confetti(config);
 				setTimeout(() => {
-					confetti();
+					confetti(config);
+					setTimeout(() => {
+						confetti(config);
+					}, 500);
 				}, 500);
 			}, 500);
 		}
@@ -134,7 +138,7 @@ function App() {
 			<div className={`grid-container`}>
 				{gridOfImage.map((data, index) => (
 					<ImageBox
-						key={data.src + index}
+						key={`${data.fileName}-${index}`}
 						data={data}
 						callBack={() => {
 							setSelectedIndex(index);
@@ -151,7 +155,7 @@ function App() {
 				</DialogTitle>
 
 				{selectedIndex > -1 && (
-					<img width="400px" src={gridOfImage[selectedIndex].src} />
+					<img src={`./resized/1200/${gridOfImage[selectedIndex].fileName}`} />
 				)}
 				<button
 					onClick={() => {
@@ -182,7 +186,7 @@ function ImageBox({
 }) {
 	return (
 		<div className={`${data.found && "found"} grid-item`} onClick={callBack}>
-			<img src={data.src} />
+			<img src={`resized/320/${data.fileName}`} />
 		</div>
 	);
 }
