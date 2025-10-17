@@ -1,86 +1,96 @@
-.found.grid-item {
-	filter: grayscale(1) brightness(55%);
+.found.grid-item::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 201, 0.3);
+}
+.found.grid-item img {
+	filter: grayscale(1) opacity(40%) brightness(120%);
 }
 
 .header-image {
-  max-width: 100%;
+	max-width: 100%;
 }
 
 .header {
-  text-align: center;
+	text-align: center;
 }
 h1 {
-    font-size: 1.3rem;
+	font-size: 1.3rem;
 }
 
 h1.page-title {
-  visibility: hidden;
+	visibility: hidden;
 }
 
 h1.info-title {
-  text-align: center;
+	text-align: center;
 }
 
-.info-dialog p{
-  line-height: 1.4rem;
+.info-dialog p {
+	line-height: 1.4rem;
+}
+
+.error-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	text-align: center;
+}
+
+.error-container p {
+	margin-bottom: 2rem;
 }
 
 .subtitle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	display: flex;
+	justify-content: center;
 }
 
 .info-icon a {
-  font-weight: 700;
-  font-size: 1.5rem;
+	font-weight: 700;
+	font-size: 1.5rem;
 }
 
 .app-container {
-  padding: 0 0.5rem;
+	padding: 0 0.5rem;
 }
 
 .grid-container {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
-  max-width: 1000px;
-  margin: 0 auto;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 10px;
+	max-width: 1000px;
+	margin: 0 auto;
 }
 
 .grid-item {
-  position: relative;
-  overflow: hidden;
-  background: #ddd;
-  aspect-ratio: 1 / 1;
-  width: 100%;
+	position: relative;
+	overflow: hidden;
+	background: #ddd;
+	aspect-ratio: 1 / 1;
+	width: 100%;
 }
 
 .grid-item img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/*
-.imageWrap::before {
-	content: "";
-	padding-bottom: 100%;
-	display: block;
-}
-
-.imageWrap {
-	background: black;
-	padding: 1rem;
-	overflow: hidden; /* Important to hide cropped parts if using 'cover' 
-} 
-
-.imageWrap img {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	width: 100%;
 	height: 100%;
-	object-fit: cover; /* or 'contain' 
-} 
+	object-fit: cover;
+}
+
+.sign-find-button {
+	margin: 1rem;
+}
+
+.center {
+	text-align: center;
+}

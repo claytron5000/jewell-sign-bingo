@@ -11,19 +11,29 @@ const sizes = [
 ];
 
 function main() {
-	fs.readdir(directory, (err, files) => {
-		if (err) {
-			console.error("Error reading directory:", err);
-			return;
+	fs.readdir(
+		directory + "/public/originals/ready-for-process",
+		(err, files) => {
+			if (err) {
+				console.error("Error reading directory:", err);
+				return;
+			}
+
+			const imgFiles = files.filter((file) => {
+				const fileExtension = path.extname(file).toLowerCase();
+				return (
+					fileExtension === ".jpg" ||
+					fileExtension === ".jpeg" ||
+					fileExtension === ".png"
+				);
+			});
+
+			imgFiles.forEach(processFile);
+			fs.writeFile("./src/images.json", JSON.stringify(imgFiles), (err) => {
+				console.error(err);
+			});
 		}
-
-		const jpgFiles = files.filter((file) => {
-			const fileExtension = path.extname(file).toLowerCase();
-			return fileExtension === ".jpg" || fileExtension === ".jpeg";
-		});
-
-		jpgFiles.forEach(processFile);
-	});
+	);
 }
 
 function processFile(file) {
@@ -32,7 +42,7 @@ function processFile(file) {
 	function processBySize(size) {
 		// const fileName =file.split(".")[0] + "-" + size.name + "px" + file.split(".")[1];
 		const outPut = ` ${directory}/${subDir}/${size.name}/${file}`;
-		let execString = `magick ${directory}/${file} -resize ${size.sizeString}`;
+		let execString = `magick ${directory}/${file} -resize ${size.sizeString} -strip`;
 		if (size.cropSquare)
 			execString += ` -gravity center -extent "%[fx:h<w?h:w]x%[fx:h<w?h:w]"`;
 		execString = execString + outPut;

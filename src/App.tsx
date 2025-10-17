@@ -1,49 +1,46 @@
 import { useEffect, useState } from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
 import confetti from "canvas-confetti";
-
+import images from "./images.json";
 import "./App.css";
-import InfoDialog from "./InfoDialog";
 import { colors, storageString } from "./constants";
+import { ErrorBoundary } from "react-error-boundary";
+import ResetButton from "./ResetButton";
+import FindingDialog from "./FindingDialog";
+import Header from "./Header";
 
-type ImageBoxData = {
+export type ImageBoxData = {
 	fileName: string;
 	found: boolean;
 };
 
 function App() {
-	let initial = [
-		{ fileName: "IMG_8813.JPG", found: false },
-		{ fileName: "IMG_8814.JPG", found: false },
-		{ fileName: "IMG_8815.JPG", found: false },
-		{ fileName: "IMG_8816.JPG", found: false },
-		{ fileName: "IMG_8817.JPG", found: false },
-		{ fileName: "IMG_8818.JPG", found: false },
-		{ fileName: "IMG_8819.JPG", found: false },
-		{ fileName: "IMG_8820.JPG", found: false },
-		{ fileName: "IMG_8821.JPG", found: false },
-		{ fileName: "IMG_8822.JPG", found: false },
-		{ fileName: "IMG_8823.JPG", found: false },
-		{ fileName: "IMG_8824.JPG", found: false },
-		{ fileName: "IMG_8825.JPG", found: false },
-		{ fileName: "IMG_8815.JPG", found: false },
-		{ fileName: "IMG_8818.JPG", found: false },
-		{ fileName: "IMG_8819.JPG", found: false },
-		{ fileName: "IMG_8820.JPG", found: false },
-		{ fileName: "IMG_8821.JPG", found: false },
-		{ fileName: "IMG_8822.JPG", found: false },
-		{ fileName: "IMG_8823.JPG", found: false },
-		{ fileName: "IMG_8825.JPG", found: false },
-		{ fileName: "IMG_8818.JPG", found: false },
-		{ fileName: "IMG_8819.JPG", found: false },
-		{ fileName: "IMG_8820.JPG", found: false },
-		{ fileName: "IMG_8821.JPG", found: false },
-	];
+	return (
+		<ErrorBoundary
+			fallback={
+				<div className="error-container">
+					<p>There was an error. Try resetting the game.</p>
+					<ResetButton text="reset" />
+				</div>
+			}
+		>
+			<InnerApp />
+		</ErrorBoundary>
+	);
+}
 
+function InnerApp() {
 	const stored = localStorage.getItem(storageString);
+	let initial;
 
-	if (stored) initial = JSON.parse(stored);
+	if (stored) {
+		initial = JSON.parse(stored);
+	} else {
+		// map to shape, then sort randomly
+		initial = images
+			.map((img) => ({ fileName: img, found: false }))
+			.sort(() => (Math.random() > Math.random() ? -1 : 1));
+	}
+	initial.length = 25;
 
 	const [gridOfImage, setGridOfImages] = useState<ImageBoxData[]>(initial);
 	const [won, setWon] = useState(false);
@@ -146,33 +143,13 @@ function App() {
 					/>
 				))}
 			</div>
-
-			<Dialog open={selectedIndex > -1} onClose={() => setDialogClosed(true)}>
-				<DialogTitle>
-					{selectedIndex > -1 && gridOfImage[selectedIndex].found
-						? "uncheck?"
-						: "Did you find me?"}
-				</DialogTitle>
-
-				{selectedIndex > -1 && (
-					<img src={`./resized/1200/${gridOfImage[selectedIndex].fileName}`} />
-				)}
-				<button
-					onClick={() => {
-						setSelectedIndex(-1);
-						toggleFound(selectedIndex);
-					}}
-				>
-					Yes
-				</button>
-				<button
-					onClick={() => {
-						setSelectedIndex(-1);
-					}}
-				>
-					No
-				</button>
-			</Dialog>
+			<FindingDialog
+				selectedIndex={selectedIndex}
+				setDialogClosed={setDialogClosed}
+				gridOfImage={gridOfImage}
+				setSelectedIndex={setSelectedIndex}
+				toggleFound={toggleFound}
+			/>
 		</div>
 	);
 }
@@ -188,30 +165,6 @@ function ImageBox({
 		<div className={`${data.found && "found"} grid-item`} onClick={callBack}>
 			<img src={`resized/320/${data.fileName}`} />
 		</div>
-	);
-}
-
-function Header({ hasWon }: { hasWon: boolean }) {
-	const [open, setOpen] = useState(false);
-
-	return (
-		<header className="header">
-			<img
-				className="header-image"
-				src="./IMG_1624.JPG"
-				alt="Jewell for our schools template"
-			/>
-			<p className="subtitle">
-				{!hasWon ? "Find enough signs around town to win!" : "you won!"}
-				&nbsp;
-				<span className="info-icon">
-					<a href="#" onClick={() => setOpen(true)}>
-						ⓘ
-					</a>
-				</span>
-			</p>
-			<InfoDialog open={open} setOpen={setOpen} />
-		</header>
 	);
 }
 
