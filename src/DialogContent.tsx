@@ -67,7 +67,7 @@ function InfoContent() {
 			</Typography>
 
 			<Typography sx={{ pb: 1 }}>
-				See how many you can find. Find five in a row to win!!
+				See if you can find five in a row!!
 			</Typography>
 		</Box>
 	);
